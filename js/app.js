@@ -151,4 +151,60 @@ function updateStatus(id, newStatus) {
   renderTasks();
 }
 
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const data = localStorage.getItem("taskflow-tasks");
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "taskflow-tasks.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+});
+
+const importBtn = document.getElementById("importBtn");
+const importFile = document.getElementById("importFile");
+
+importBtn.addEventListener("click", () => {
+  importFile.click(); // Opens the file picker
+});
+
+importFile.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const text = await file.text();
+    const importedTasks = JSON.parse(text);
+
+    if (!Array.isArray(importedTasks)) {
+      alert("❌ Invalid file format.");
+      return;
+    }
+
+    const existingTasks = JSON.parse(localStorage.getItem("taskflow-tasks")) || [];
+
+    // Optionally prevent duplicate `id`s (can be customized)
+    const mergedTasks = [...existingTasks];
+
+    importedTasks.forEach(task => {
+      const exists = existingTasks.some(t => t.id === task.id);
+      if (!exists) {
+        mergedTasks.push(task);
+      }
+    });
+
+    localStorage.setItem("taskflow-tasks", JSON.stringify(mergedTasks));
+    alert("✅ Tasks merged successfully!");
+    location.reload();
+  } catch (err) {
+    alert("❌ Failed to import file.");
+    console.error(err);
+  }
+});
+
+
 loadInitialTasksIfNeeded();

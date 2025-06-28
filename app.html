@@ -5,35 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TaskFlow - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="index.css"/>
+  <link rel="stylesheet" href="index.css" />
   <link rel="icon" type="image/png" href="icons/taskflow.png" />
 </head>
 <body class="bg-gradient-to-b from-[#0f1123] to-[#161a3b] text-white min-h-screen overflow-y-auto font-sans">
 
   <!-- Navbar -->
-  <nav class="flex sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 px-2 bg-[#1c1f3a] shadow-md">
-  
-     <img src="icons/taskflow.png" class="w-24 h-24" alt="logo"/>
-    <div class="flex items-center gap-3">
+  <nav class="flex sm:flex-row sm:justify-between sm:items-center gap-3 px-4 py-3 bg-[#1c1f3a] shadow-md">
+    <img src="icons/taskflow.png" class="w-20 h-20" alt="logo" />
+    <div class="flex flex-wrap items-center gap-3">
       <span id="username" class="capitalize font-medium text-white text-sm sm:text-base"></span>
       <img id="avatar" class="w-9 h-9 rounded-full bg-gray-300 object-cover" alt="Avatar">
-      <button id="signOut" class="text-sm px-4 py-1 rounded bg-white text-black hover:bg-red-500 hover:text-white transition">
-        Sign Out
-      </button>
+
+     <button id="exportBtn" class="flex items-center gap-2 px-4 py-2 bg-white text-black rounded hover:bg-gray-200 text-sm">
+  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+    <path fill-rule="evenodd" clip-rule="evenodd"
+      d="M8.84467 7.90533C9.13756 8.19822 9.61244 8.19822 9.90533 7.90533L11.625 6.18566L11.625 14.375C11.625 14.7892 11.9608 15.125 12.375 15.125C12.7892 15.125 13.125 14.7892 13.125 14.375V6.18566L14.8447 7.90533C15.1376 8.19822 15.6124 8.19822 15.9053 7.90533C16.1982 7.61244 16.1982 7.13756 15.9053 6.84467L12.9053 3.84467C12.6124 3.55178 12.1376 3.55178 11.8447 3.84467L8.84467 6.84467C8.55178 7.13756 8.55178 7.61244 8.84467 7.90533Z" />
+    <path
+      d="M12.375 20.375C16.7933 20.375 20.375 16.7933 20.375 12.375L16.625 12.375C15.6822 12.375 15.2108 12.375 14.9179 12.6679C14.625 12.9608 14.625 13.4322 14.625 14.375C14.625 15.6176 13.6176 16.625 12.375 16.625C11.1324 16.625 10.125 15.6176 10.125 14.375C10.125 13.4322 10.125 12.9608 9.83211 12.6679C9.53921 12.375 9.06781 12.375 8.125 12.375H4.375C4.375 16.7933 7.95672 20.375 12.375 20.375Z" />
+  </svg>
+  <span class="">Export</span>
+</button>
+
+<button id="importBtn" class="flex items-center gap-2 px-4 py-2 bg-white text-black rounded hover:bg-gray-200 text-sm">
+  <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd"
+      d="M15.5303 10.4697C15.2374 10.1768 14.7626 10.1768 14.4697 10.4697L12.75 12.1893V4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4V12.1893L9.53033 10.4697C9.23744 10.1768 8.76256 10.1768 8.46967 10.4697C8.17678 10.7626 8.17678 11.2374 8.46967 11.5303L11.4697 14.5303C11.7626 14.8232 12.2374 14.8232 12.5303 14.5303L15.5303 11.5303C15.8232 11.2374 15.8232 10.7626 15.5303 10.4697Z" />
+    <path
+      d="M17.7476 12C17.2996 12 16.9077 12.2742 16.591 12.591L13.591 15.591C12.7123 16.4697 11.2877 16.4697 10.409 15.591L7.40901 12.591C7.09226 12.2742 6.70041 12 6.25245 12H4C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12H17.7476Z" />
+  </svg>
+  <span>Import</span>
+</button>
+
+
+
+      
+<button title="Sign Out" id="signOut"
+  class="flex items-center gap-2 px-4 py-2 text-sm text-black bg-red-500 rounded hover:bg-red-600 transition-all duration-200">
+
+  <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 12H6M6 12L8 14M6 12L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+      stroke-linejoin="round" />
+    <path
+      d="M12 22c-1.553-.046-2.48-.22-3.121-.861C8.11 20.37 8.014 19.193 8.002 17M16 22c2.175-.012 3.353-.108 4.121-.877C21 20.244 21 18.83 21 16V8c0-2.828 0-4.243-.879-5.122C19.242 2 17.828 2 15 2h-1c-2.828 0-4.243 0-5.122.878C8.11 3.647 8.014 4.825 8.002 7"
+      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    <path d="M3 9.5v5c0 2.357 0 3.536.732 4.268.733.732 1.911.732 4.268.732M3.732 5.232C4.465 4.5 5.643 4.5 8 4.5"
+      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+  </svg>
+
+  <span>Sign Out</span>
+</button>
+
+
     </div>
   </nav>
+
+  <!-- Hidden file input for import -->
+  <input title="import" type="file" id="importFile" accept=".json" class="hidden" />
 
   <main class="p-4 sm:p-6 max-w-4xl mx-auto">
 
     <!-- Tabs -->
-    <div class="grid grid-cols-3 gap-1 bg-[#1e223f] rounded-lg overflow-hidden mb-6">
-      <button class="tab py-2 font-medium focus:outline-none bg-white text-black transition" data-tab="todo">
+    <div class="grid grid-cols-3 gap-1 rounded-xl border border-[#2e335f] bg-[#1e223f] mb-6 overflow-hidden shadow-sm">
+      <button class="tab px-4 py-2 font-semibold text-sm sm:text-base text-white hover:bg-white hover:text-black transition" data-tab="todo">
         Todo (<span id="todo-count">0</span>)
       </button>
-      <button class="tab py-2 font-medium focus:outline-none text-white hover:bg-white hover:text-black transition" data-tab="completed">
+      <button class="tab px-4 py-2 font-semibold text-sm sm:text-base text-white hover:bg-white hover:text-black transition" data-tab="completed">
         Completed (<span id="completed-count">0</span>)
       </button>
-      <button class="tab py-2 font-medium focus:outline-none text-white hover:bg-white hover:text-black transition" data-tab="archived">
+      <button class="tab px-4 py-2 font-semibold text-sm sm:text-base text-white hover:bg-white hover:text-black transition" data-tab="archived">
         Archived (<span id="archived-count">0</span>)
       </button>
     </div>
@@ -43,18 +84,17 @@
       <input id="taskInput" type="text" placeholder="Add your task here..." 
         class="flex-1 px-4 py-2 bg-[#2b2f4a] text-white placeholder-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-600" />
       <button id="addTask" class="bg-blue-600 px-4 py-2 rounded text-white font-semibold hover:bg-blue-700 transition">
-        Add Task
+        ➕ Add Task
       </button>
     </div>
 
     <!-- Loading Spinner -->
-<div id="loadingSpinner" class="flex justify-center items-center py-6">
-  <svg class="animate-spin h-6 w-6 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-  </svg>
-</div>
-
+    <div id="loadingSpinner" class="flex justify-center items-center py-6">
+      <svg class="animate-spin h-6 w-6 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
+    </div>
 
     <!-- Task List -->
     <div id="taskList" class="space-y-4"></div>
