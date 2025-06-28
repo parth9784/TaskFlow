@@ -21,11 +21,30 @@ document.getElementById("signOut").onclick = () => {
   window.location.href = "index.html";
 };
 
+// document.getElementById("addTask").onclick = () => {
+//   const text = taskInput.value.trim();
+//   if (!text) return;
+
+//   tasks.push({ id: Date.now(), text, status: "todo", updated: new Date().toLocaleString() });
+//   localStorage.setItem("taskflow-tasks", JSON.stringify(tasks));
+//   taskInput.value = "";
+//   renderTasks();
+// };
+
 document.getElementById("addTask").onclick = () => {
   const text = taskInput.value.trim();
+  const priority = document.getElementById("prioritySelect").value;
+
   if (!text) return;
 
-  tasks.push({ id: Date.now(), text, status: "todo", updated: new Date().toLocaleString() });
+  tasks.push({
+    id: Date.now(),
+    text,
+    status: "todo",
+    priority, // 👈 new
+    updated: new Date().toLocaleString()
+  });
+
   localStorage.setItem("taskflow-tasks", JSON.stringify(tasks));
   taskInput.value = "";
   renderTasks();
@@ -42,6 +61,7 @@ tabs.forEach(tab => {
 });
 
 async function loadInitialTasksIfNeeded() {
+  const priorityLevels = ["low", "medium", "high"];
   if (tasks.length === 0) {
     try {
       const res = await fetch("https://dummyjson.com/todos");
@@ -51,6 +71,8 @@ async function loadInitialTasksIfNeeded() {
         id: Date.now() + Math.random(),
         text: todo.todo,
         status: todo.completed ? "completed" : "todo",
+        priority: priorityLevels[Math.floor(Math.random() * priorityLevels.length)],
+
         updated: new Date().toLocaleString()
       }));
 
@@ -67,9 +89,16 @@ async function loadInitialTasksIfNeeded() {
 }
 
 function renderTasks() {
+  const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+const selectedPriority = document.getElementById("priorityFilter").value;
   tasks = JSON.parse(localStorage.getItem("taskflow-tasks")) || [];
 
-  const filtered = tasks.filter(task => task.status === activeTab);
+  // const filtered = tasks.filter(task => task.status === activeTab);
+  const filtered = tasks.filter(task =>
+  task.status === activeTab &&
+  task.text.toLowerCase().includes(searchQuery) &&
+  (selectedPriority === "all" || task.priority === selectedPriority)
+);
   taskList.innerHTML = "";
   todoCount.textContent = tasks.filter(t => t.status === "todo").length;
   completedCount.textContent = tasks.filter(t => t.status === "completed").length;
@@ -85,7 +114,18 @@ function renderTasks() {
     card.className = "bg-[#1e223f] p-4 rounded-md shadow flex justify-between items-start";
 
     const left = document.createElement("div");
-    left.innerHTML = `<p class="font-medium">${task.text}</p><p class="text-sm text-gray-400 mt-2">Last modified: ${task.updated}</p>`;
+    // left.innerHTML = `<p class="font-medium">${task.text}</p><p class="text-sm text-gray-400 mt-2">Last modified: ${task.updated}</p>`;
+let priorityIcon = "";
+if (task.priority === "high") priorityIcon = "🔴";
+else if (task.priority === "medium") priorityIcon = "🟡";
+else if (task.priority === "low") priorityIcon = "🟢";
+
+left.innerHTML = `
+  <p class="font-medium flex items-center gap-2">
+    <span>${priorityIcon}</span>${task.text}
+  </p>
+  <p class="text-sm text-gray-400 mt-2">Last modified: ${task.updated}</p>
+`;
 
     const right = document.createElement("div");
     right.className = "flex gap-2 mt-1 flex-wrap";
@@ -169,7 +209,7 @@ const importBtn = document.getElementById("importBtn");
 const importFile = document.getElementById("importFile");
 
 importBtn.addEventListener("click", () => {
-  importFile.click(); // Opens the file picker
+  importFile.click(); 
 });
 
 importFile.addEventListener("change", async (e) => {
@@ -187,7 +227,7 @@ importFile.addEventListener("change", async (e) => {
 
     const existingTasks = JSON.parse(localStorage.getItem("taskflow-tasks")) || [];
 
-    // Optionally prevent duplicate `id`s (can be customized)
+  
     const mergedTasks = [...existingTasks];
 
     importedTasks.forEach(task => {
@@ -205,6 +245,9 @@ importFile.addEventListener("change", async (e) => {
     console.error(err);
   }
 });
+
+document.getElementById("searchInput").addEventListener("input", renderTasks);
+document.getElementById("priorityFilter").addEventListener("change", renderTasks);
 
 
 loadInitialTasksIfNeeded();

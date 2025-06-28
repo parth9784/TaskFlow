@@ -81,12 +81,46 @@
 
     <!-- Add Task -->
     <div id="taskInputWrapper" class="flex flex-col sm:flex-row items-stretch gap-3 mb-6 bg-[#1e223f] p-4 rounded-md">
-      <input id="taskInput" type="text" placeholder="Add your task here..." 
-        class="flex-1 px-4 py-2 bg-[#2b2f4a] text-white placeholder-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-600" />
-      <button id="addTask" class="bg-blue-600 px-4 py-2 rounded text-white font-semibold hover:bg-blue-700 transition">
-        ➕ Add Task
-      </button>
-    </div>
+  <!-- Task Input -->
+  <input id="taskInput" type="text" placeholder="Add your task here..."
+    class="flex-1 px-4 py-2 bg-[#2b2f4a] text-white placeholder-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-600" />
+
+  
+  <select title="priority" id="prioritySelect"
+    class="px-3 py-2 bg-[#2b2f4a] text-white rounded focus:outline-none focus:ring-2 focus:ring-purple-500">
+    <option value="low">🟢 Low</option>
+    <option value="medium">🟡 Medium</option>
+    <option value="high">🔴 High</option>
+  </select>
+
+  <!-- Add Task Button -->
+  <button id="addTask" 
+  class="flex items-center gap-2 bg-blue-600 px-4 py-2 rounded text-white font-semibold hover:bg-blue-700 transition">
+  
+  <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 12H18M12 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+  
+  <span>Add Task</span>
+</button>
+
+</div>
+<div class="flex flex-col sm:flex-row gap-3 mb-6">
+  <!-- Search Input -->
+  <input type="text" id="searchInput" placeholder="Search tasks..."
+    class="flex-1 px-4 py-2 bg-[#2b2f4a] text-white placeholder-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-600" />
+
+  <!-- Priority Filter -->
+  <select title="priority" id="priorityFilter"
+    class="px-3 py-2 bg-[#2b2f4a] text-white rounded focus:outline-none focus:ring-2 focus:ring-purple-500">
+    <option value="all">All Priorities</option>
+    <option value="high">🔴 High</option>
+    <option value="medium">🟡 Medium</option>
+    <option value="low">🟢 Low</option>
+  </select>
+</div>
+
+
 
     <!-- Loading Spinner -->
     <div id="loadingSpinner" class="flex justify-center items-center py-6">
