@@ -10,13 +10,15 @@ const taskInput = document.getElementById("taskInput");
 let activeTab = "todo";
 let tasks = JSON.parse(localStorage.getItem("taskflow-tasks")) || [];
 
-if (!user) window.location.href = "login.html";
+if (!user) window.location.href = "index.html";
+
+
 
 document.getElementById("username").innerText = user.name;
-document.getElementById("avatar").src = `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${user.name}`;
+document.getElementById("avatar").src = `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${encodeURIComponent(user.name)}`;
 document.getElementById("signOut").onclick = () => {
   localStorage.removeItem("taskflow-user");
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 };
 
 document.getElementById("addTask").onclick = () => {
@@ -39,7 +41,34 @@ tabs.forEach(tab => {
   });
 });
 
+async function loadInitialTasksIfNeeded() {
+  if (tasks.length === 0) {
+    try {
+      const res = await fetch("https://dummyjson.com/todos");
+      const data = await res.json();
+
+      const dummyTodos = data.todos.slice(0, 10).map(todo => ({
+        id: Date.now() + Math.random(),
+        text: todo.todo,
+        status: todo.completed ? "completed" : "todo",
+        updated: new Date().toLocaleString()
+      }));
+
+      tasks = dummyTodos;
+      localStorage.setItem("taskflow-tasks", JSON.stringify(tasks));
+    } catch (err) {
+      console.error("Failed to fetch dummy todos:", err);
+    }
+  }
+
+  document.getElementById("loadingSpinner").style.display = "none";
+
+  renderTasks();
+}
+
 function renderTasks() {
+  tasks = JSON.parse(localStorage.getItem("taskflow-tasks")) || [];
+
   const filtered = tasks.filter(task => task.status === activeTab);
   taskList.innerHTML = "";
   todoCount.textContent = tasks.filter(t => t.status === "todo").length;
@@ -63,18 +92,48 @@ function renderTasks() {
 
     if (task.status === "todo") {
       right.innerHTML = `
-        <button class="bg-green-600 text-white px-2 py-1 rounded" onclick="updateStatus(${task.id}, 'completed')">Mark as completed</button>
-        <button class="bg-white text-black px-2 py-1 rounded" onclick="updateStatus(${task.id}, 'archived')">Archive</button>
+        <button class="flex items-center gap-2 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700" onclick="updateStatus(${task.id}, 'completed')">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15L15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0Z"/>
+          </svg>
+          Complete
+        </button>
+        <button class="flex items-center gap-2 bg-slate-100 hover:bg-slate-300  text-black px-3 py-1 rounded" onclick="updateStatus(${task.id}, 'archived')">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5h16.5M10 11.25h4m6.25-3.75-.625 10.63a2.25 2.25 0 01-2.25 2.12H6.63a2.25 2.25 0 01-2.25-2.12L3.75 7.5Z"/>
+          </svg>
+          Archive
+        </button>
       `;
     } else if (task.status === "completed") {
       right.innerHTML = `
-        <button class="bg-blue-600 text-white px-2 py-1 rounded" onclick="updateStatus(${task.id}, 'todo')">Move to Todo</button>
-        <button class="bg-white text-black px-2 py-1 rounded" onclick="updateStatus(${task.id}, 'archived')">Archive</button>
+        <button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" onclick="updateStatus(${task.id}, 'todo')">
+          <svg class="w-4 h-4" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2,11H8a1,1,0,0,0,1-1V4A1,1,0,0,0,8,3H2A1,1,0,0,0,1,4v6A1,1,0,0,0,2,11ZM3,5H7V9H3ZM23,7a1,1,0,0,1-1,1H12a1,1,0,0,1,0-2H22A1,1,0,0,1,23,7Zm0,10a1,1,0,0,1-1,1H12a1,1,0,0,1,0-2H22A1,1,0,0,1,23,17ZM3.235,19.7,1.281,17.673a1,1,0,0,1,1.438-1.391l1.252,1.3L7.3,14.289A1,1,0,1,1,8.7,15.711l-4.046,4a1,1,0,0,1-.7.289H3.942A1,1,0,0,1,3.235,19.7Z"/>
+          </svg>
+          Move to Todo
+        </button>
+        <button class="flex items-center gap-2 bg-slate-100 hover:bg-slate-300 text-black px-3 py-1 rounded" onclick="updateStatus(${task.id}, 'archived')">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5h16.5M10 11.25h4m6.25-3.75-.625 10.63a2.25 2.25 0 01-2.25 2.12H6.63a2.25 2.25 0 01-2.25-2.12L3.75 7.5Z"/>
+          </svg>
+          Archive
+        </button>
       `;
     } else if (task.status === "archived") {
       right.innerHTML = `
-        <button class="bg-blue-600 text-white px-2 py-1 rounded" onclick="updateStatus(${task.id}, 'todo')">Move to Todo</button>
-        <button class="bg-green-600 text-white px-2 py-1 rounded" onclick="updateStatus(${task.id}, 'completed')">Move to Completed</button>
+        <button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" onclick="updateStatus(${task.id}, 'todo')">
+          <svg class="w-4 h-4" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2,11H8a1,1,0,0,0,1-1V4A1,1,0,0,0,8,3H2A1,1,0,0,0,1,4v6A1,1,0,0,0,2,11ZM3,5H7V9H3ZM23,7a1,1,0,0,1-1,1H12a1,1,0,0,1,0-2H22A1,1,0,0,1,23,7Zm0,10a1,1,0,0,1-1,1H12a1,1,0,0,1,0-2H22A1,1,0,0,1,23,17ZM3.235,19.7,1.281,17.673a1,1,0,0,1,1.438-1.391l1.252,1.3L7.3,14.289A1,1,0,1,1,8.7,15.711l-4.046,4a1,1,0,0,1-.7.289H3.942A1,1,0,0,1,3.235,19.7Z"/>
+          </svg>
+          Move to Todo
+        </button>
+        <button class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded" onclick="updateStatus(${task.id}, 'completed')">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+          Move to Completed
+        </button>
       `;
     }
 
@@ -85,9 +144,11 @@ function renderTasks() {
 }
 
 function updateStatus(id, newStatus) {
-  tasks = tasks.map(task => task.id === id ? { ...task, status: newStatus, updated: new Date().toLocaleString() } : task);
+  tasks = tasks.map(task =>
+    task.id === id ? { ...task, status: newStatus, updated: new Date().toLocaleString() } : task
+  );
   localStorage.setItem("taskflow-tasks", JSON.stringify(tasks));
   renderTasks();
 }
 
-renderTasks(); // initial render
+loadInitialTasksIfNeeded();

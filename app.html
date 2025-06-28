@@ -5,37 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TaskFlow - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="index.css"/>
 </head>
-<body class="bg-gradient-to-b from-[#0f1123] to-[#161a3b] text-white min-h-screen">
+<body class="bg-gradient-to-b from-[#0f1123] to-[#161a3b] text-white min-h-screen overflow-y-auto font-sans">
 
   <!-- Navbar -->
-  <nav class="flex items-center justify-between p-4 bg-[#1c1f3a]">
-    <h1 class="text-lg font-semibold">My Todo App</h1>
-    <div class="flex items-center gap-4">
-      <span id="username" class="capitalize font-medium text-white"></span>
-      <img id="avatar" class="w-8 h-8 rounded-full bg-gray-300" alt="Avatar">
-      <button id="signOut" class="bg-white text-black px-3 py-1 rounded hover:bg-red-500 hover:text-white transition">Sign Out</button>
+  <nav class="flex sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 px-2 bg-[#1c1f3a] shadow-md">
+  
+     <img src="icons/taskflow.png" class="w-24 h-24" alt="logo"/>
+    <div class="flex items-center gap-3">
+      <span id="username" class="capitalize font-medium text-white text-sm sm:text-base"></span>
+      <img id="avatar" class="w-9 h-9 rounded-full bg-gray-300 object-cover" alt="Avatar">
+      <button id="signOut" class="text-sm px-4 py-1 rounded bg-white text-black hover:bg-red-500 hover:text-white transition">
+        Sign Out
+      </button>
     </div>
   </nav>
 
-  <!-- Main Container -->
-  <main class="p-6 max-w-3xl mx-auto">
+  <main class="p-4 sm:p-6 max-w-4xl mx-auto">
 
     <!-- Tabs -->
-    <div class="flex justify-between bg-[#1e223f] rounded-lg overflow-hidden mb-6">
-      <button class="tab w-full py-2 font-medium focus:outline-none bg-white text-black" data-tab="todo">Todo (<span id="todo-count">0</span>)</button>
-      <button class="tab w-full py-2 font-medium focus:outline-none text-white" data-tab="completed">Completed (<span id="completed-count">0</span>)</button>
-      <button class="tab w-full py-2 font-medium focus:outline-none text-white" data-tab="archived">Archived (<span id="archived-count">0</span>)</button>
+    <div class="grid grid-cols-3 gap-1 bg-[#1e223f] rounded-lg overflow-hidden mb-6">
+      <button class="tab py-2 font-medium focus:outline-none bg-white text-black transition" data-tab="todo">
+        Todo (<span id="todo-count">0</span>)
+      </button>
+      <button class="tab py-2 font-medium focus:outline-none text-white hover:bg-white hover:text-black transition" data-tab="completed">
+        Completed (<span id="completed-count">0</span>)
+      </button>
+      <button class="tab py-2 font-medium focus:outline-none text-white hover:bg-white hover:text-black transition" data-tab="archived">
+        Archived (<span id="archived-count">0</span>)
+      </button>
     </div>
 
     <!-- Add Task -->
-    <div id="taskInputWrapper" class="flex items-center gap-2 mb-6 bg-[#1e223f] p-3 rounded-md">
-      <input id="taskInput" type="text" placeholder="Add your task (text-box)" class="w-full px-3 py-2 bg-[#2b2f4a] text-white rounded focus:outline-none" />
-      <button id="addTask" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+    <div id="taskInputWrapper" class="flex flex-col sm:flex-row items-stretch gap-3 mb-6 bg-[#1e223f] p-4 rounded-md">
+      <input id="taskInput" type="text" placeholder="Add your task here..." 
+        class="flex-1 px-4 py-2 bg-[#2b2f4a] text-white placeholder-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      <button id="addTask" class="bg-blue-600 px-4 py-2 rounded text-white font-semibold hover:bg-blue-700 transition">
+        Add Task
+      </button>
     </div>
+
+    <!-- Loading Spinner -->
+<div id="loadingSpinner" class="flex justify-center items-center py-6">
+  <svg class="animate-spin h-6 w-6 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+  </svg>
+</div>
+
 
     <!-- Task List -->
     <div id="taskList" class="space-y-4"></div>
+
   </main>
 
   <script src="js/app.js"></script>

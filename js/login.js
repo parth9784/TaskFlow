@@ -1,3 +1,8 @@
+const existingUser = localStorage.getItem("taskflow-user");
+if (existingUser) {
+  window.location.href = "app.html";
+}
+
 document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
   const name = document.getElementById("name").value.trim();
