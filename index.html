@@ -13,8 +13,8 @@
     
     <!-- Logo and Heading -->
     <div class="flex flex-col items-center mb-6">
-      <div class="w-16 h-16 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-md">
-        <img src="icons/taskflow.png" alt="logo" class="w-10 h-10" />
+      <div class="w-15 h-15 rounded-full flex items-center justify-center shadow-md">
+        <img src="icons/taskflow.png" alt="logo" class="w-[70px] h-[70px]" />
       </div>
       <h1 class="text-3xl font-bold mt-2 text-white">TaskFlow</h1>
       <p class="text-sm text-gray-400">Your Personal Productivity Companion</p>
@@ -22,22 +22,32 @@
     </div>
 
     <!-- Login Form -->
-    <form id="loginForm" class="space-y-5">
-      <h2 class="text-center text-lg font-semibold text-white">Verify Your Identity</h2>
+   <!-- Login Form -->
+<form id="loginForm" class="space-y-5">
+  <h2 class="text-center text-lg font-semibold text-white">Verify Your Identity</h2>
 
-      <input id="name" type="text" placeholder="Enter your full name"
-        class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition" required />
+  <!-- Full Name -->
+  <div class="flex flex-col space-y-1">
+    <label for="name" class="text-sm text-gray-300 font-medium">Full Name</label>
+    <input id="name" type="text" placeholder="Enter your full name"
+      class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition" required />
+  </div>
 
-      <input id="dob" type="date" title="dob"
-        class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition" required />
+  <!-- Date of Birth -->
+  <div class="flex flex-col space-y-1">
+    <label for="dob" class="text-sm text-gray-300 font-medium">Date of Birth</label>
+    <input id="dob" type="date" placeholder="Enter your date of birth"
+      class="w-full px-4 py-2 bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition" required />
+  </div>
 
-      <button type="submit"
-        class="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-md hover:from-blue-600 hover:to-purple-700 transition">
-        ✅ Verify & Continue
-      </button>
+  <button type="submit"
+    class="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-md hover:from-blue-600 hover:to-purple-700 transition">
+    Verify & Continue
+  </button>
 
-      <p id="error" class="text-red-500 text-sm text-center"></p>
-    </form>
+  <p id="error" class="text-red-500 text-sm text-center"></p>
+</form>
+
 
     <p class="text-xs text-center text-gray-400 mt-6">
       By continuing, you confirm that you are over 10 years old and agree to our terms of service.
