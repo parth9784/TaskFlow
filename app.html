@@ -65,6 +65,24 @@
       </svg>
       <span>Sign Out</span>
     </button>
+
+    <div class="relative group hidden sm:block">
+  <!-- Help Button -->
+  <button
+    title="Keyboard Shortcuts"
+    class="w-8 h-8 flex items-center justify-center bg-white text-black rounded-full font-bold text-sm hover:bg-gray-200 transition-all">
+    ?
+  </button>
+
+  <!-- Tooltip on Hover -->
+  <div
+    class="absolute top-10 right-0 z-50 hidden group-hover:flex flex-col gap-1 w-56 bg-[#1c1f3a] text-white text-xs p-4 rounded-lg shadow-xl border border-[#2e335f]">
+    <p><kbd class="bg-white text-black px-1.5 py-0.5 rounded font-mono">Ctrl + I</kbd> → Import Tasks</p>
+    <p><kbd class="bg-white text-black px-1.5 py-0.5 rounded font-mono">Ctrl + E</kbd> → Export Tasks</p>
+    <p><kbd class="bg-white text-black px-1.5 py-0.5 rounded font-mono">Ctrl + F</kbd> → Focus Search</p>
+  </div>
+</div>
+
   </div>
 </nav>
 

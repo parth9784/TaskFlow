@@ -20,8 +20,6 @@ menuToggle.addEventListener("click", () => {
 
 
 
-
-
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => {
@@ -266,6 +264,27 @@ importFile.addEventListener("change", async (e) => {
 
 document.getElementById("searchInput").addEventListener("input", renderTasks);
 document.getElementById("priorityFilter").addEventListener("change", renderTasks);
+
+
+document.addEventListener("keydown", (e) => {
+  // Ctrl + I → Import
+  if (e.ctrlKey && e.key === "i") {
+    e.preventDefault();
+    document.getElementById("importBtn").click();
+  }
+
+  // Ctrl + E → Export
+  if (e.ctrlKey && e.key === "e") {
+    e.preventDefault();
+    document.getElementById("exportBtn").click();
+  }
+
+  // Ctrl + F → Focus Search
+  if (e.ctrlKey && e.key === "f") {
+    e.preventDefault();
+    document.getElementById("searchInput").focus();
+  }
+});
 
 
 
