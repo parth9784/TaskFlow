@@ -111,12 +111,16 @@ const selectedPriority = document.getElementById("priorityFilter").value;
 
   filtered.forEach(task => {
     const card = document.createElement("div");
-    card.className = "bg-[#1e223f] p-4 rounded-md shadow flex justify-between items-start";
+    // card.className = "bg-[#1e223f] p-4 rounded-md shadow flex justify-between items-start";
+    card.className = "bg-[#1e223f] p-4 rounded-md shadow flex flex-col sm:flex-row justify-between items-start gap-4";
+
 
     const left = document.createElement("div");
+    left.className = "w-full break-words";
+
     // left.innerHTML = `<p class="font-medium">${task.text}</p><p class="text-sm text-gray-400 mt-2">Last modified: ${task.updated}</p>`;
 let priorityIcon = "";
-if (task.priority === "high") priorityIcon = "🔴";
+if (task.priority === "high") priorityIcon = '🔴';
 else if (task.priority === "medium") priorityIcon = "🟡";
 else if (task.priority === "low") priorityIcon = "🟢";
 
@@ -128,7 +132,9 @@ left.innerHTML = `
 `;
 
     const right = document.createElement("div");
-    right.className = "flex gap-2 mt-1 flex-wrap";
+    // right.className = "flex gap-2 mt-1 flex-wrap";
+    right.className = "flex gap-2 mt-1 flex-wrap justify-start sm:justify-end w-full sm:w-auto";
+
 
     if (task.status === "todo") {
       right.innerHTML = `
