@@ -74,7 +74,7 @@
 
   <main class="p-4 sm:p-6 max-w-4xl mx-auto w-full">
 
-    <!-- Tabs -->
+  
     <!-- Tabs -->
 <div class="grid grid-cols-3 gap-1 rounded-xl border border-[#2e335f] bg-[#1e223f] mb-6 overflow-hidden shadow-sm">
   <button
@@ -104,12 +104,14 @@
     class="flex-1 px-4 py-2 bg-[#2b2f4a] text-white placeholder-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-600" />
 
   
-  <select title="priority" id="prioritySelect"
-    class="px-3 py-2 bg-[#2b2f4a] text-white rounded focus:outline-none focus:ring-2 focus:ring-purple-500">
-    <option value="low">🟢 Low</option>
-    <option value="medium">🟡 Medium</option>
-    <option value="high">🔴 High</option>
-  </select>
+ <select title="priority" id="prioritySelect"
+  class="px-3 py-2 bg-[#2b2f4a] text-white rounded focus:outline-none focus:ring-2 focus:ring-purple-500">
+  
+  <option value="" disabled selected hidden>Select Priority</option>
+  <option value="low">🟢 Low</option>
+  <option value="medium">🟡 Medium</option>
+  <option value="high">🔴 High</option>
+</select>
 
   <!-- Add Task Button -->
   <button id="addTask" 
@@ -156,15 +158,6 @@
   </main>
 
   <script src="js/app.js"></script>
-  <script>
-  const tabs = document.querySelectorAll('.tab');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('bg-white', 'text-black', 'rounded'));
-      tab.classList.add('bg-white', 'text-black', 'rounded');
-    });
-  });
-</script>
+  
 </body>
 </html>

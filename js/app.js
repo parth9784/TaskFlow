@@ -20,10 +20,17 @@ menuToggle.addEventListener("click", () => {
 
 
 
+
+
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('bg-white', 'text-black', 'rounded'));
+      tabs.forEach(t => {
+        t.classList.remove('bg-white', 'text-black', 'rounded');
+        t.classList.add('text-white', 'hover:bg-white', 'hover:text-black');
+      });
+
       tab.classList.add('bg-white', 'text-black', 'rounded');
+      tab.classList.remove('text-white', 'hover:bg-white', 'hover:text-black');
     });
   });
 
@@ -34,15 +41,7 @@ document.getElementById("signOut").onclick = () => {
   window.location.href = "index.html";
 };
 
-// document.getElementById("addTask").onclick = () => {
-//   const text = taskInput.value.trim();
-//   if (!text) return;
 
-//   tasks.push({ id: Date.now(), text, status: "todo", updated: new Date().toLocaleString() });
-//   localStorage.setItem("taskflow-tasks", JSON.stringify(tasks));
-//   taskInput.value = "";
-//   renderTasks();
-// };
 
 document.getElementById("addTask").onclick = () => {
   const text = taskInput.value.trim();
