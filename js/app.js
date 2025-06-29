@@ -12,7 +12,20 @@ let tasks = JSON.parse(localStorage.getItem("taskflow-tasks")) || [];
 
 if (!user) window.location.href = "index.html";
 
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+menuToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("hidden");
+  });
 
+
+
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('bg-white', 'text-black', 'rounded'));
+      tab.classList.add('bg-white', 'text-black', 'rounded');
+    });
+  });
 
 document.getElementById("username").innerText = user.name;
 document.getElementById("avatar").src = `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${encodeURIComponent(user.name)}`;
@@ -111,14 +124,14 @@ const selectedPriority = document.getElementById("priorityFilter").value;
 
   filtered.forEach(task => {
     const card = document.createElement("div");
-    // card.className = "bg-[#1e223f] p-4 rounded-md shadow flex justify-between items-start";
+    
     card.className = "bg-[#1e223f] p-4 rounded-md shadow flex flex-col sm:flex-row justify-between items-start gap-4";
 
 
     const left = document.createElement("div");
     left.className = "w-full break-words";
 
-    // left.innerHTML = `<p class="font-medium">${task.text}</p><p class="text-sm text-gray-400 mt-2">Last modified: ${task.updated}</p>`;
+   
 let priorityIcon = "";
 if (task.priority === "high") priorityIcon = '🔴';
 else if (task.priority === "medium") priorityIcon = "🟡";
@@ -254,6 +267,7 @@ importFile.addEventListener("change", async (e) => {
 
 document.getElementById("searchInput").addEventListener("input", renderTasks);
 document.getElementById("priorityFilter").addEventListener("change", renderTasks);
+
 
 
 loadInitialTasksIfNeeded();
